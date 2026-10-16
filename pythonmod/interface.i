@@ -818,6 +818,7 @@ struct module_qstate {
 };
 
 %constant int MODULE_COUNT = MAX_MODULE;
+%constant int INPLACE_REPLY_VETO_SUPPORTED = 1;
 
 %constant int QF_BIT_CD = 0x0010;
 %constant int QF_BIT_AD = 0x0020;

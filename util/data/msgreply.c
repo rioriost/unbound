@@ -1287,8 +1287,12 @@ static int inplace_cb_reply_call_generic(
 	for(cb=callback_list; cb; cb=cb->next) {
 		fptr_ok(fptr_whitelist_inplace_cb_reply_generic(
 			(inplace_cb_reply_func_type*)cb->cb, type));
-		(void)(*(inplace_cb_reply_func_type*)cb->cb)(qinfo, qstate, rep,
-			rcode, edns, &opt_list_out, repinfo, region, start_time, cb->id, cb->cb_arg);
+		if(!(*(inplace_cb_reply_func_type*)cb->cb)(qinfo, qstate, rep,
+			rcode, edns, &opt_list_out, repinfo, region, start_time,
+			cb->id, cb->cb_arg)) {
+			edns->opt_list_inplace_cb_out = NULL;
+			return 0;
+		}
 	}
 	edns->opt_list_inplace_cb_out = opt_list_out;
 	return 1;
